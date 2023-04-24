@@ -33,9 +33,17 @@ export interface QueryTableType {
   queryKey: string;
 }
 
+export interface LoginType {
+  N_E: string;
+  Pwd: string;
+  // userSetNumber:boolean
+}
 
-export interface LoginType{
-  userName:string,
-  userPassword:string,
-  userSetNumber:boolean
+export interface RegisterType {
+  Name: string;
+  Email: string;
+  Pwd: string;
+  Pwd_confirm: string;
+  SecQ: string;
+  SecA: string;
 }

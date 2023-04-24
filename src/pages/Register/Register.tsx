@@ -8,7 +8,7 @@ import {
   message
 } from 'antd';
 import React, { FC, useState } from 'react';
-import './Login.less';
+import './Register.less';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import routes from '@/routes/index';
@@ -17,9 +17,9 @@ import { userInfoType } from '@/store/StoreState';
 import { filterRoute2Path } from '@/uilts/index';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import UserApi from '@/apis/UserApi';
-import { LoginType } from '@/Interface/common';
+import { RegisterType } from '@/Interface/common';
 
-const Login: FC = () => {
+const Register: FC = () => {
   const [, writeState] = useLocalStorage('token', '');
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -31,40 +31,19 @@ const Login: FC = () => {
     });
   };
 
-  const onFinish = (values: LoginType) => {
-    UserApi.login(values)
-      .then((res: any) => {
-        const userInfo: userInfoType = {
-          userName: values.N_E,
-          ...res.data
-        };
-        if (userInfo.jurisdictions) {
-          //存储用户信息
-          dispatch(dispatchLogin({ isLogin: true, userInfo }));
-          //独立存储token
-          writeState(userInfo.token);
-          //根据账号权限获取默认第一个跳转页面
-          const homePath = filterRoute2Path(routes, userInfo.jurisdictions);
-          history.push(homePath);
-          message.success('登录成功!');
-        } else {
-          onShowMsg('暂无权限!');
-        }
-      })
-      .catch(() => {
-        writeState('');
-        onShowMsg('账号或密码错误!');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const onFinish = (values: RegisterType) => {
+    message.success('注册成功！请登录');
+    history.push('/login');
+    // UserApi.register(values).then((res: any) => {
+    //   console.log(res.date);
+    // });
   };
 
   return (
-    <Layout className="login-warp">
-      <div className="login-container">
-        <div className="login-left"></div>
-        <div className="login-right">
+    <Layout className="register-warp">
+      <div className="register-container">
+        <div className="register-left"></div>
+        <div className="register-right">
           <Form
             name="basic"
             labelCol={{ span: 8 }}
@@ -74,9 +53,16 @@ const Login: FC = () => {
             autoComplete="off">
             <Form.Item
               label="用户名"
-              name="N_E"
+              name="Name"
               rules={[{ required: true, message: '请输入用户名!' }]}>
               <Input placeholder="请输入用户名" size="large" />
+            </Form.Item>
+
+            <Form.Item
+              label="邮箱"
+              name="Email"
+              rules={[{ required: true, message: '请输入邮箱!' }]}>
+              <Input placeholder="请输入邮箱" size="large" />
             </Form.Item>
 
             <Form.Item
@@ -86,12 +72,33 @@ const Login: FC = () => {
               <Input.Password placeholder="请输入密码" size="large" />
             </Form.Item>
 
+            <Form.Item
+              label="重复密码"
+              name="Pwd_confirm"
+              rules={[{ required: true, message: '请重复密码!' }]}>
+              <Input.Password placeholder="请重复密码" size="large" />
+            </Form.Item>
+
+            <Form.Item
+              label="密保问题"
+              name="SecQ"
+              rules={[{ required: true, message: '请输入邮箱密保问题!' }]}>
+              <Input placeholder="请输入密保问题" size="large" />
+            </Form.Item>
+
+            <Form.Item
+              label="密保答案"
+              name="SecA"
+              rules={[{ required: true, message: '请输入邮箱密保答案!' }]}>
+              <Input placeholder="请输入密保答案" size="large" />
+            </Form.Item>
+
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <a
                 onClick={() => {
-                  history.push('/register');
+                  history.push('/login');
                 }}>
-                点击跳转到注册页
+                点击跳转到登录页
               </a>
             </Form.Item>
 
@@ -102,7 +109,7 @@ const Login: FC = () => {
                 type="primary"
                 htmlType="submit"
                 style={{ width: '100%' }}>
-                登录
+                注册
               </Button>
             </Form.Item>
           </Form>
@@ -112,4 +119,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default Register;
