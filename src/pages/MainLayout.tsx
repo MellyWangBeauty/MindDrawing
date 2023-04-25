@@ -9,7 +9,7 @@ import Header from '@/compoents/Header';
 import { useSelector } from 'react-redux';
 import { userInfoType, StoreState } from '@/store/StoreState';
 import { routesEnum } from '@/routes/config';
-import Canvas from '../compoents/Canvas';
+import Canvas from '../compoents/Canvas/index2.js';
 
 /**
 /**

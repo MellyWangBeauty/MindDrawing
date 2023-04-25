@@ -1,83 +1,142 @@
-import React, { useState, useRef } from 'react';
-import { Button } from 'antd';
+import React from 'react';
+import { useRef, useState } from 'react';
 import './index.css';
 
 function Canvas() {
-  const [type, setType] = useState('huabi');
-  const [color, setColor] = useState('black');
-  const clearRef = useRef();
+  const canvasRef = useRef(null);
+  const [brushSize, setBrushSize] = useState(5);
+  const [canvasBackground, setCanvasBackground] = useState('');
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [brushColor, setBrushColor] = useState('#000000');
+  const [undoStack, setUndoStack] = useState([]);
 
-  const handleMouseEnter = () => {
-    var canvas = document.getElementById('canvas');
-    var clear = document.getElementById('clear');
-    var save = document.getElementById('save');
-    const ctx = canvas.getContext('2d');
+  // const handleFileChange = event => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onload = event => {
+  //     const imageUrl = event.target.result;
+  //     setCanvasBackground(imageUrl);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
-    canvas.addEventListener('mouseenter', () => {
-      canvas.addEventListener('mousedown', e => {
-        ctx.beginPath();
-        ctx.moveTo(e.offsetX, e.offsetY);
-        ctx.strokeStyle = color;
-        canvas.addEventListener('mousemove', draw);
-      });
-      canvas.addEventListener('mouseup', () => {
-        canvas.removeEventListener('mousemove', draw);
-      });
-    });
+  const handleFileChange = event => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = event => {
+      const image = new Image();
+      image.onload = () => {
+        const canvas = canvasRef.current;
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      };
+      image.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
 
-    function draw(e) {
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
-    }
+  const handleMouseDown = event => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    context.beginPath();
+    context.moveTo(x, y);
+    setIsDrawing(true);
+  };
 
-    // clear.addEventListener('click', () => {
-    //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // });
+  const handleMouseMove = event => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    const rect = canvas.getBoundingClientRect();
+    context.lineWidth = brushSize;
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    context.lineTo(x, y);
+    context.strokeStyle = brushColor;
+    context.stroke();
+  };
 
-    // save.addEventListener('click', () => {
-    //   const url = canvas.toDataURL();
-    //   const a = document.createElement('a');
-    //   a.download = 'undefined';
-    //   a.href = url;
-    //   document.body.appendChild(a);
-    //   a.click();
-    //   document.body.removeChild(a);
-    // });
+  const handleMouseUp = () => {
+    setIsDrawing(false);
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    setUndoStack([...undoStack, imageData]);
+  };
+
+  const handleUndo = () => {
+    if (undoStack.length === 0) return;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    const imageData = undoStack.pop();
+    context.putImageData(imageData, 0, 0);
+    setUndoStack([...undoStack]);
   };
 
   const handleClear = () => {
-    var canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    setUndoStack([]);
+  };
+
+  const handleSave = () => {
+    const canvas = canvasRef.current;
+    const link = document.createElement('a');
+    link.download = 'canvas.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+
+  const handleBrushSizeChange = event => {
+    setBrushSize(event.target.value);
   };
 
   return (
-    <>
+    <div>
+      <canvas
+        ref={canvasRef}
+        width="800"
+        height="400"
+        style={{
+          backgroundImage: `url(${canvasBackground})`,
+          border: '1px solid black'
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      />
       <div>
-        <div className="toolsbar">
-          <Button onClick={() => setType('huabi')}>画笔</Button>
-          <Button onClick={() => setType('rect')}>正方形</Button>
-          <Button onClick={() => setType('arc')}>圆形</Button>
-          <span>颜色：</span>
+        <input type="file" onChange={handleFileChange} multiple={false} />
+        <div>
+          <button onClick={handleUndo}>撤销</button>
+          <button onClick={handleClear}>清空</button>
+          <button onClick={handleSave}>保存</button>
+        </div>
+        <div>
+          <label>画笔颜色：</label>
           <input
             type="color"
-            value={color}
-            onChange={e => {
-              setColor(e.target.value);
-            }}></input>
-          <Button ref={clearRef} onClick={handleClear}>
-            清空
-          </Button>
-          <Button id="save">保存</Button>
+            value={brushColor}
+            onChange={event => setBrushColor(event.target.value)}
+          />
+          <br />
+          <label>画笔粗细：</label>
+          <input
+            type="range"
+            min={1}
+            max={10}
+            value={brushSize}
+            onChange={handleBrushSizeChange}
+          />
         </div>
-        <canvas
-          id="canvas"
-          width="800"
-          height="400"
-          style={{ border: '1px solid black', marginTop: '10px' }}
-          onMouseEnter={handleMouseEnter}></canvas>
       </div>
-    </>
+    </div>
   );
 }
 
