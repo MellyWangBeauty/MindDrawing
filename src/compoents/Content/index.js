@@ -1,8 +1,7 @@
-import React from 'react';
-import { useRef, useState } from 'react';
-import './index.css';
+import React, { useEffect, useRef, useState } from 'react';
+import { Col, Row } from 'antd';
 
-function Canvas() {
+function Content() {
   const canvasRef = useRef(null);
   const fileInputRef = useRef(null);
   const [brushSize, setBrushSize] = useState(5);
@@ -11,15 +10,11 @@ function Canvas() {
   const [brushColor, setBrushColor] = useState('#000000');
   const [undoStack, setUndoStack] = useState([]);
 
-  // const handleFileChange = event => {
-  //   const file = event.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.onload = event => {
-  //     const imageUrl = event.target.result;
-  //     setCanvasBackground(imageUrl);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    canvas.width = '960';
+    canvas.height = '550';
+  }, []);
 
   const handleFileChange = event => {
     const file = event.target.files[0];
@@ -28,8 +23,6 @@ function Canvas() {
       const image = new Image();
       image.onload = () => {
         const canvas = canvasRef.current;
-        // canvas.width = image.width;
-        // canvas.height = image.height;
         const context = canvas.getContext('2d');
         context.drawImage(image, 0, 0, canvas.width, canvas.height);
       };
@@ -103,20 +96,8 @@ function Canvas() {
   };
 
   return (
-    <div>
-      <canvas
-        ref={canvasRef}
-        width="800"
-        height="400"
-        style={{
-          backgroundImage: `url(${canvasBackground})`,
-          border: '1px solid black'
-        }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-      />
-      <div>
+    <div className="container">
+      <div className="top">
         <button onClick={handleButtonClick}>上传图片作为背景</button>
         <input
           type="file"
@@ -124,31 +105,38 @@ function Canvas() {
           ref={fileInputRef}
           style={{ display: 'none' }}
         />
-        <div>
-          <button onClick={handleUndo}>撤销</button>
-          <button onClick={handleClear}>清空</button>
-          <button onClick={handleSave}>保存</button>
-        </div>
-        <div>
-          <label>画笔颜色：</label>
-          <input
-            type="color"
-            value={brushColor}
-            onChange={event => setBrushColor(event.target.value)}
+        <button onClick={handleUndo}>撤销</button>
+        <button onClick={handleClear}>清空</button>
+        <button onClick={handleSave}>保存</button>
+        <label>画笔颜色：</label>
+        <input
+          type="color"
+          value={brushColor}
+          onChange={event => setBrushColor(event.target.value)}
+        />
+        <label>画笔粗细：</label>
+        <input
+          type="range"
+          min={1}
+          max={10}
+          value={brushSize}
+          onChange={handleBrushSizeChange}
+        />
+      </div>
+
+      <div className="bottom">
+        <div className="left">
+          <canvas
+            ref={canvasRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
           />
-          <br />
-          <label>画笔粗细：</label>
-          <input
-            type="range"
-            min={1}
-            max={10}
-            value={brushSize}
-            onChange={handleBrushSizeChange}
-          />
         </div>
+        <div className="right"></div>
       </div>
     </div>
   );
 }
 
-export default Canvas;
+export default Content;

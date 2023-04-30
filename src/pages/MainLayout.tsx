@@ -9,8 +9,8 @@ import Header from '@/compoents/Header';
 import { useSelector } from 'react-redux';
 import { userInfoType, StoreState } from '@/store/StoreState';
 import { routesEnum } from '@/routes/config';
-import Canvas from '../compoents/Canvas/index2.js';
-
+import Canvas from '../compoents/Canvas/index.js';
+import Content from '../compoents/Content';
 /**
 /**
  * 获取所有路由页面
@@ -53,7 +53,6 @@ const MainLayout: FC = () => {
   const redirectRoute = routesEnum.defaultPath;
   return (
     <section>
-      <Header></Header>
       {/*
       <div className="main-wrapper">
         <div className="main-mens">
@@ -76,11 +75,8 @@ const MainLayout: FC = () => {
         </div>
       </div>
         */}
-      <div className="main-wrapper">
-        <div className="main-com">
-          <Canvas />
-        </div>
-      </div>
+      <Header></Header>
+      <Content></Content>
     </section>
   );
 };
