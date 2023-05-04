@@ -7,7 +7,9 @@ import { dispatchLogin } from '@/store/Actions';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { useDispatch, useSelector } from 'react-redux';
 import { userInfoType, StoreState } from '@/store/StoreState';
-import logo from '@/assets/images/header-logo.svg';
+import logo from '@/assets/images/微信图片_20230502091459.jpg';
+import { HandPaintedPlate, History, Me } from '@icon-park/react';
+import { Link } from 'react-router-dom';
 const Header: FC = () => {
   const [, writeState] = useLocalStorage('token', '');
   const history = useHistory();
@@ -34,8 +36,29 @@ const Header: FC = () => {
         <img className="logo" src={logo} alt="logo" />
         <h1 className="h1">MindDrawing智绘</h1>
       </div>
+
+      <div className="nav">
+        <div>
+          <Link to="/">
+            <HandPaintedPlate theme="outline" size="24" fill="#6e41ff" />
+            <span>创作空间</span>
+          </Link>
+        </div>
+        <div>
+          <Link to="/history">
+            <History theme="outline" size="24" fill="#6e41ff" />
+            <span>历史画作</span>
+          </Link>
+        </div>
+        <div>
+          <Link to="/">
+            <Me theme="outline" size="24" fill="#6e41ff" />
+            <span>个人中心</span>
+          </Link>
+        </div>
+      </div>
       <Dropdown overlay={menu}>
-        <div className="pointer">
+        <div className="pointer" style={{ marginLeft: '30px' }}>
           {/* <span className="m-r-10">{userInfo.userName}</span> */}
           <Avatar src={userInfo.pic} size={60} icon={<UserOutlined />} />
         </div>

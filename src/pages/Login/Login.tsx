@@ -45,7 +45,7 @@ const Login: FC = () => {
           writeState(userInfo.token);
           //根据账号权限获取默认第一个跳转页面
           const homePath = filterRoute2Path(routes, userInfo.jurisdictions);
-          history.push(homePath);
+          history.push('/');
           message.success('登录成功!');
         } else {
           onShowMsg('暂无权限!');

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import routes from '@/routes/index';
 import NoMatch from '../pages/NoMatch';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { RouterType } from '@/routes/interface';
 import Mens from '@/compoents/Mens';
 import Breadcrumbs from '@/compoents/Breadcrumbs';
@@ -11,6 +11,7 @@ import { userInfoType, StoreState } from '@/store/StoreState';
 import { routesEnum } from '@/routes/config';
 import Canvas from '../compoents/Canvas/index.js';
 import Content from '../compoents/Content';
+import Picture from '../compoents/Picture';
 /**
 /**
  * 获取所有路由页面
@@ -75,8 +76,13 @@ const MainLayout: FC = () => {
         </div>
       </div>
         */}
+
       <Header></Header>
-      <Content></Content>
+      <Switch>
+        <Route path="/" exact component={Content} />
+        <Route path="/history" component={Picture} />
+        <Route path="/no" component={NoMatch} />
+      </Switch>
     </section>
   );
 };
