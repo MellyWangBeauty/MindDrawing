@@ -11,7 +11,7 @@ import { userInfoType, StoreState } from '@/store/StoreState';
 import { routesEnum } from '@/routes/config';
 import Canvas from '../compoents/Canvas/index.js';
 import Content from '../compoents/Content';
-import Picture from '../compoents/Picture';
+import History from '../compoents/History';
 /**
 /**
  * 获取所有路由页面
@@ -80,7 +80,7 @@ const MainLayout: FC = () => {
       <Header></Header>
       <Switch>
         <Route path="/" exact component={Content} />
-        <Route path="/history" component={Picture} />
+        <Route path="/history" component={History} />
         <Route path="/no" component={NoMatch} />
       </Switch>
     </section>

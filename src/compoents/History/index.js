@@ -16,7 +16,7 @@ const imageData = [
   // ... more image data
 ];
 
-const ImageGallery = () => {
+function History() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 2; // number of images to display per page
 
@@ -26,35 +26,26 @@ const ImageGallery = () => {
 
   return (
     <div className="container">
-      {/* <Row>
+      <Row justify="space-around" align="middle" className="wrapper">
         {currentImages.map(image => (
-          <Col span={12} key={image.id}>
-            <Card
-              cover={
-                <img src={image.url} alt="" style={{ width: '50%' }} />
-              }></Card>
+          <Col span={11} key={image.id}>
+            <Image className="pic" key={image.id} src={image.url} />
+            <div className="text">asdasdasdasdasd</div>
           </Col>
         ))}
-      </Row> */}
-      <div className="wrapper">
-        <Space size={20} wrap>
-          {currentImages.map(image => (
-            <>
-              <Image
-                className="pic"
-                key={image.id}
-                src={image.url}
-                width={600}
-                height={400}
-              />
-              {/* <span>{image.url}</span> */}
-            </>
-          ))}
-        </Space>
-      </div>
+      </Row>
 
-      <div className="page">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          position: 'absolute',
+          bottom: 70,
+          left: 0,
+          right: 0
+        }}>
         <Pagination
+          // className="page"
           current={currentPage}
           pageSize={pageSize}
           total={imageData.length}
@@ -63,6 +54,6 @@ const ImageGallery = () => {
       </div>
     </div>
   );
-};
+}
 
-export default ImageGallery;
+export default History;
