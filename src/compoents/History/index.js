@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Pagination, Col, Row, Card, Space, Image } from 'antd';
 import './index.less';
+import ironMan from '../../assets/images/ironman.png';
 
 const src =
   'https://img1.baidu.com/it/u=413643897,2296924942&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500';
 
 const imageData = [
-  { id: 1, url: src },
-  { id: 2, url: src },
+  { id: 1, url: ironMan, context: '钢铁侠长出了翅膀，拿起了宝剑和盾牌' },
+  { id: 2, url: src, context: '白茫茫的雪地中长着一棵树' },
   { id: 3, url: src },
   { id: 4, url: src },
   { id: 5, url: src },
@@ -30,7 +31,7 @@ function History() {
         {currentImages.map(image => (
           <Col span={11} key={image.id}>
             <Image className="pic" key={image.id} src={image.url} />
-            <div className="text">asdasdasdasdasd</div>
+            <div className="text">{image.context}</div>
           </Col>
         ))}
       </Row>

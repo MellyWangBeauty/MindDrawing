@@ -10,6 +10,7 @@ import { userInfoType, StoreState } from '@/store/StoreState';
 import logo from '@/assets/images/微信图片_20230502091459.jpg';
 import { HandPaintedPlate, History, Me } from '@icon-park/react';
 import { Link } from 'react-router-dom';
+
 const Header: FC = () => {
   const [, writeState] = useLocalStorage('token', '');
   const history = useHistory();
@@ -44,7 +45,7 @@ const Header: FC = () => {
             <span>创作空间</span>
           </Link>
         </div>
-        <div>
+        <div className="history">
           <Link to="/history">
             <History theme="outline" size="24" fill="#6e41ff" />
             <span>历史画作</span>
