@@ -12,6 +12,7 @@ import {
   Notes
 } from '@icon-park/react';
 import '@icon-park/react/styles/index.css';
+import CreatedImg from '../../assets/images/ironman2.png';
 
 const { TextArea } = Input;
 
@@ -24,6 +25,8 @@ function Content() {
   const [brushColor, setBrushColor] = useState('#000000');
   const [undoStack, setUndoStack] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imgUrl, setImgUrl] = useState('');
+  const [text, setText] = useState('');
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -98,8 +101,11 @@ function Content() {
     const canvas = canvasRef.current;
     const link = document.createElement('a');
     link.download = 'canvas.png';
-    link.href = canvas.toDataURL();
-    link.click();
+    const imgUrl = canvas.toDataURL();
+    console.log(imgUrl);
+    setImgUrl(imgUrl);
+    // link.href = canvas.toDataURL();
+    // link.click();
   };
 
   const handleBrushSizeChange = event => {
@@ -126,18 +132,23 @@ function Content() {
     setIsModalOpen(false);
   };
 
+  const onTextChange = e => {
+    setText(e.target.value);
+    console.log(text);
+  };
+
   const options = [
-    { label: '卡通', value: 'Apple' },
-    { label: '山', value: 'Pear' },
-    { label: '花', value: 'Orange' },
-    { label: '天空', value: 'Apple' },
-    { label: '科技', value: 'Apple' },
-    { label: '风景', value: 'Apple' },
-    { label: '城市', value: 'Apple' },
-    { label: '建筑', value: 'Apple' },
-    { label: '森林', value: 'Apple' },
-    { label: '星空', value: 'Apple' },
-    { label: '春天', value: 'Apple' }
+    { label: '卡通', value: '1' },
+    { label: '山', value: '2' },
+    { label: '花', value: '3' },
+    { label: '天空', value: '4' },
+    { label: '科技', value: '5' },
+    { label: '风景', value: '6' },
+    { label: '城市', value: '7' },
+    { label: '建筑', value: '8' },
+    { label: '森林', value: '9' },
+    { label: '星空', value: '10' },
+    { label: '春天', value: '11' }
   ];
 
   return (
@@ -145,20 +156,19 @@ function Content() {
       <div className="top">
         <i className="icon icon-xiajiantou"></i>
         <span id="huabu">
-          {/* <DownOne theme="outline" size="36" fill="#6e41ff" /> */}
           <ArrowDown theme="outline" size="30" fill="#6e41ff" />
           画布
         </span>
         <label type="primary">画笔颜色：</label>
         <input
-          style={{ marginRight: '50px' }}
+          style={{ marginRight: '20px' }}
           type="color"
           value={brushColor}
           onChange={event => setBrushColor(event.target.value)}
         />
         <label>画笔粗细：</label>
         <input
-          style={{ marginRight: '15px' }}
+          style={{ marginRight: '10px' }}
           type="range"
           min={1}
           max={10}
@@ -168,7 +178,7 @@ function Content() {
         <Button
           type="primary"
           onClick={handleButtonClick}
-          style={{ margin: '15px 30px' }}>
+          style={{ margin: '15px 10px' }}>
           <Upload
             theme="outline"
             size="15"
@@ -184,6 +194,18 @@ function Content() {
           ref={fileInputRef}
           style={{ display: 'none' }}
         />
+        {/* <Button
+          type="primary"
+          onClick={handleButtonClick}
+          style={{ margin: '15px 15px' }}>
+          <Upload
+            theme="outline"
+            size="15"
+            fill="white"
+            style={{ marginRight: '5px' }}
+          />
+          选择图片素材
+        </Button> */}
         <Button
           type="primary"
           onClick={handleUndo}
@@ -273,12 +295,11 @@ function Content() {
             <span>文本:</span>
             <TextArea
               // value={value}
-              // onChange={e => setValue(e.target.value)}
-              rows="8"
-              cols="30"
+              className="text"
+              onChange={e => onTextChange(e)}
+              rows="5"
+              cols="20"
               allowClear
-              style={{ marginTop: '10px' }}
-              // autoSize={{ minRows: 3, maxRows: 7 }}
             />
           </div>
         </div>
@@ -291,7 +312,8 @@ function Content() {
         onOk={handleOk}
         onCancel={handleCancel}>
         <img
-          src="https://img1.baidu.com/it/u=413643897,2296924942&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500"
+          // src="https://img1.baidu.com/it/u=413643897,2296924942&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500"
+          src={CreatedImg}
           alt="tp"
           width="100%"
           height="100%"

@@ -7,9 +7,9 @@ import { dispatchLogin } from '@/store/Actions';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { useDispatch, useSelector } from 'react-redux';
 import { userInfoType, StoreState } from '@/store/StoreState';
-import logo from '@/assets/images/微信图片_20230502091459.jpg';
+import logo from '@/assets/images/logo.jpg';
 import { HandPaintedPlate, History, Me } from '@icon-park/react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Header: FC = () => {
   const [, writeState] = useLocalStorage('token', '');
@@ -40,22 +40,28 @@ const Header: FC = () => {
 
       <div className="nav">
         <div>
-          <Link to="/">
+          <NavLink exact to="/">
             <HandPaintedPlate theme="outline" size="24" fill="#6e41ff" />
             <span>创作空间</span>
-          </Link>
+          </NavLink>
         </div>
         <div className="history">
-          <Link to="/history">
+          <NavLink to="/history">
             <History theme="outline" size="24" fill="#6e41ff" />
             <span>历史画作</span>
-          </Link>
+          </NavLink>
         </div>
+        {/* <div>
+          <NavLink to="/gallery">
+            <Me theme="outline" size="24" fill="#6e41ff" />
+            <span>我的绘本</span>
+          </NavLink>
+        </div> */}
         <div>
-          <Link to="/">
+          <NavLink to="/personal">
             <Me theme="outline" size="24" fill="#6e41ff" />
             <span>个人中心</span>
-          </Link>
+          </NavLink>
         </div>
       </div>
       <Dropdown overlay={menu}>
