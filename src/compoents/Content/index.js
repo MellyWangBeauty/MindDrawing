@@ -9,7 +9,8 @@ import {
   Delete,
   Optimize,
   Label,
-  Notes
+  Notes,
+  Material
 } from '@icon-park/react';
 import '@icon-park/react/styles/index.css';
 import CreatedImg from '../../assets/images/ironman2.png';
@@ -168,89 +169,76 @@ function Content() {
         />
         <label>画笔粗细：</label>
         <input
-          style={{ marginRight: '10px' }}
+          style={{ marginRight: '15px' }}
           type="range"
           min={1}
           max={10}
           value={brushSize}
           onChange={handleBrushSizeChange}
         />
-        <Button
-          type="primary"
-          onClick={handleButtonClick}
-          style={{ margin: '15px 10px' }}>
-          <Upload
-            theme="outline"
-            size="15"
-            fill="white"
-            style={{ marginRight: '5px' }}
+        <div className="buttons">
+          <Button type="primary" onClick={handleButtonClick}>
+            <Upload
+              theme="outline"
+              size="15"
+              fill="white"
+              style={{ marginRight: '5px' }}
+            />
+            上传背景图片
+          </Button>
+          {/* <button onClick={handleButtonClick}>上传图片作为背景</button> */}
+          <input
+            type="file"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+            style={{ display: 'none' }}
           />
-          上传背景图片
-        </Button>
-        {/* <button onClick={handleButtonClick}>上传图片作为背景</button> */}
-        <input
-          type="file"
-          onChange={handleFileChange}
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-        />
-        {/* <Button
-          type="primary"
-          onClick={handleButtonClick}
-          style={{ margin: '15px 15px' }}>
-          <Upload
-            theme="outline"
-            size="15"
-            fill="white"
-            style={{ marginRight: '5px' }}
-          />
-          选择图片素材
-        </Button> */}
-        <Button
-          type="primary"
-          onClick={handleUndo}
-          style={{ marginRight: '30px' }}>
-          <Back
-            theme="outline"
-            size="15"
-            fill="white"
-            style={{ marginRight: '5px' }}
-          />
-          撤销
-        </Button>
-        <Button
-          type="primary"
-          onClick={handleClear}
-          style={{ marginRight: '30px' }}>
-          <Delete
-            theme="outline"
-            size="15"
-            fill="white"
-            style={{ marginRight: '5px' }}
-          />
-          清空
-        </Button>
-        <Button
-          type="primary"
-          onClick={handleSave}
-          style={{ marginRight: '30px' }}>
-          <Save
-            theme="outline"
-            size="15"
-            fill="white"
-            style={{ marginRight: '5px' }}
-          />
-          保存
-        </Button>
-        <Button type="primary" onClick={showModal}>
-          <Optimize
-            theme="outline"
-            size="15"
-            fill="white"
-            style={{ marginRight: '5px' }}
-          />
-          智慧生成绘图
-        </Button>
+          <Button type="primary" onClick={handleButtonClick}>
+            <Material
+              theme="outline"
+              size="15"
+              fill="white"
+              style={{ marginRight: '5px' }}
+            />
+            选择图片素材
+          </Button>
+          <Button type="primary" onClick={handleUndo}>
+            <Back
+              theme="outline"
+              size="15"
+              fill="white"
+              style={{ marginRight: '5px' }}
+            />
+            撤销
+          </Button>
+          <Button type="primary" onClick={handleClear}>
+            <Delete
+              theme="outline"
+              size="15"
+              fill="white"
+              style={{ marginRight: '5px' }}
+            />
+            清空
+          </Button>
+          <Button type="primary" onClick={handleSave}>
+            <Save
+              theme="outline"
+              size="15"
+              fill="white"
+              style={{ marginRight: '5px' }}
+            />
+            保存
+          </Button>
+          <Button type="primary" onClick={showModal}>
+            <Optimize
+              theme="outline"
+              size="15"
+              fill="white"
+              style={{ marginRight: '5px' }}
+            />
+            智慧生成绘图
+          </Button>
+        </div>
       </div>
 
       <div className="bottom">
@@ -289,19 +277,25 @@ function Content() {
             style={{
               position: 'absolute',
               margin: '10px',
-              bottom: '50px'
+              bottom: '80px'
             }}>
             <Notes theme="outline" size="24" fill="#6e41ff" />
             <span>文本:</span>
             <TextArea
-              // value={value}
               className="text"
               onChange={e => onTextChange(e)}
-              rows="5"
-              cols="20"
               allowClear
             />
           </div>
+          <Button className="bb" type="primary">
+            <Optimize
+              theme="outline"
+              size="15"
+              fill="white"
+              style={{ marginRight: '5px' }}
+            />
+            <span>智慧生成绘本</span>
+          </Button>
         </div>
       </div>
       <Modal
