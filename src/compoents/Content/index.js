@@ -14,6 +14,10 @@ import {
 } from '@icon-park/react';
 import '@icon-park/react/styles/index.css';
 import CreatedImg from '../../assets/images/ironman2.png';
+import spring from '../../assets/images/spring.png';
+import summer from '../../assets/images/summer.jpg';
+import autumn from '../../assets/images/autumn.png';
+import winter from '../../assets/images/winter.jpg';
 
 const { TextArea } = Input;
 
@@ -26,8 +30,11 @@ function Content() {
   const [brushColor, setBrushColor] = useState('#000000');
   const [undoStack, setUndoStack] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTextModalOpen, setIsTextModalOpen] = useState(false);
   const [imgUrl, setImgUrl] = useState('');
   const [text, setText] = useState('');
+  const [largeImgUrl, setLargeImgUrl] = useState('');
+  const [largeImgText, setLargeImgText] = useState('');
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -125,12 +132,23 @@ function Content() {
     setIsModalOpen(true);
   };
 
+  const showTextModal = () => {
+    setIsTextModalOpen(true);
+    setLargeImgUrl(imageData[0].url);
+    setLargeImgText(imageData[0].context);
+  };
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
 
+  const handleTextOk = () => {
+    setIsTextModalOpen(false);
+  };
+
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsTextModalOpen(false);
   };
 
   const onTextChange = e => {
@@ -150,6 +168,36 @@ function Content() {
     { label: '森林', value: '9' },
     { label: '星空', value: '10' },
     { label: '春天', value: '11' }
+  ];
+
+  const image_description =
+    '处处春光明媚，处处春意盎然。小溪的冰融化了，溪水清澈见底，小鱼在溪水里欢快的玩耍。小草偷偷的从土钻出来，伸展嫩绿的身躯。各色的花争奇斗艳，散在草丛里，像无数的星星眨呀眨。';
+
+  const imageData = [
+    {
+      id: 0,
+      url: spring,
+      context:
+        '处处春光明媚，处处春意盎然。小溪的冰融化了，溪水清澈见底，小鱼在溪水里欢快的玩耍。小草偷偷的从土钻出来，伸展嫩绿的身躯。各色的花争奇斗艳，散在草丛里，像无数的星星眨呀眨'
+    },
+    {
+      id: 1,
+      url: summer,
+      context:
+        '夏天是属于花的季节。各种各样的花儿这儿一朵，那儿一簇，大片大片的开出无限的美丽。红的、黄的、蓝的、粉的、白的..把夏天装扮的五彩缤纷'
+    },
+    {
+      id: 2,
+      url: autumn,
+      context:
+        '秋天撒下丰收的果实，天更蓝了，更纯洁，更明净了。太阳是那样明亮，亮得更加柔和。云是那样无暇，给人一种玲珑剔透的感觉，，心情也变得舒畅起来'
+    },
+    {
+      id: 3,
+      url: winter,
+      context:
+        '下雪的时候，一片片雪花从天上落下来，一会儿，山头白了，房子白了，窗外的一切都白了雪花落在我们的手心上化成了一滴水，洁白无瑕，晶莹剔透'
+    }
   ];
 
   return (
@@ -287,7 +335,7 @@ function Content() {
               allowClear
             />
           </div>
-          <Button className="bb" type="primary">
+          <Button className="bb" type="primary" onClick={showTextModal}>
             <Optimize
               theme="outline"
               size="15"
@@ -305,13 +353,39 @@ function Content() {
         okText="保存"
         onOk={handleOk}
         onCancel={handleCancel}>
-        <img
-          // src="https://img1.baidu.com/it/u=413643897,2296924942&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500"
-          src={CreatedImg}
-          alt="tp"
-          width="100%"
-          height="100%"
-        />
+        <img src={CreatedImg} alt="tp" width="100%" height="100%" />
+      </Modal>
+      <Modal
+        title="生成绘本预览"
+        visible={isTextModalOpen}
+        cancelText="放弃"
+        okText="保存"
+        onOk={handleTextOk}
+        onCancel={handleCancel}>
+        <div id="image-container">
+          <div id="large-image">
+            <img src={largeImgUrl}></img>
+            <div className="img_text">{largeImgText}</div>
+          </div>
+          <div className="small-images">
+            <ul>
+              <li>
+                {imageData.map(item => {
+                  return (
+                    <div
+                      key={item.id}
+                      onClick={() => {
+                        setLargeImgText(imageData[item.id].context);
+                        setLargeImgUrl(imageData[item.id].url);
+                      }}>
+                      <img src={item.url} />
+                    </div>
+                  );
+                })}
+              </li>
+            </ul>
+          </div>
+        </div>
       </Modal>
     </div>
   );

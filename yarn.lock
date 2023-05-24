@@ -10113,6 +10113,11 @@ path-type@^4.0.0:
   resolved "https://registry.npm.taobao.org/path-type/download/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha1-hO0BwKe6OAr+CdkKjBgNzZ0DBDs=
 
+pathseg@^1.2.0:
+  version "1.2.1"
+  resolved "https://registry.npmmirror.com/pathseg/-/pathseg-1.2.1.tgz#50b3fc4fc05c64f4a52f8c04156f6f3975b0df3c"
+  integrity sha512-LtvemzPvcGamWBbNWJaIrgfUzpynXfwYrP6SSFVRhNHVcCaq6SVm4kRGJNuIV8qzBKgCN3fEXFZZ16YETFIXoA==
+
 pbkdf2@^3.0.3:
   version "3.1.2"
   resolved "https://registry.nlark.com/pbkdf2/download/pbkdf2-3.1.2.tgz#dd822aa0887580e52f1a039dc3eda108efae3075"
@@ -11723,6 +11728,13 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.npmmirror.com/react-is/download/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha1-5pHUqOnHiTZWVVOas3J2Kw77VPA=
+
+react-particles-js@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.npmmirror.com/react-particles-js/-/react-particles-js-3.6.0.tgz#3c9c22fbf93150d1fd1a190cd060ec1d6dcaa373"
+  integrity sha512-gQzUKZgPpjdplhAtskLnn9frLyei6uGuWabNtBGWnr3eZpHXfXJO1F8sedPhO29xfpKixE3HEejwGQAld8K16Q==
+  dependencies:
+    lodash "^4.17.11"
 
 react-redux@^7.2.5:
   version "7.2.5"
@@ -13697,6 +13709,13 @@ tslib@^2.5.0:
   version "2.5.0"
   resolved "https://registry.npmmirror.com/tslib/-/tslib-2.5.0.tgz#42bfed86f5787aeb41d031866c8f402429e0fddf"
   integrity sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==
+
+tsparticles@1.31.0:
+  version "1.31.0"
+  resolved "https://registry.npmmirror.com/tsparticles/-/tsparticles-1.31.0.tgz#0b64296bc38aa2c0fb527922c6f77cef403ee328"
+  integrity sha512-PagMN9E5c3YFEgeeshmRh1xvFPvRnyrJm5ckmu9qnNYy6pQHN3l3C6lYWCT4VaXpSmTKxXs461DznobLTVJY8g==
+  optionalDependencies:
+    pathseg "^1.2.0"
 
 tsutils@^3.17.1, tsutils@^3.21.0:
   version "3.21.0"

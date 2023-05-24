@@ -18,6 +18,7 @@ import { filterRoute2Path } from '@/uilts/index';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import UserApi from '@/apis/UserApi';
 import { LoginType } from '@/Interface/common';
+import Particles from 'react-particles-js';
 
 const Login: FC = () => {
   const [, writeState] = useLocalStorage('token', '');
