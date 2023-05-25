@@ -18,7 +18,6 @@ import spring from '../../assets/images/spring.png';
 import summer from '../../assets/images/summer.jpg';
 import autumn from '../../assets/images/autumn.png';
 import winter from '../../assets/images/winter.jpg';
-import { fabric } from 'fabric';
 
 const { TextArea } = Input;
 
@@ -37,13 +36,11 @@ function Content() {
   const [text, setText] = useState('');
   const [largeImgUrl, setLargeImgUrl] = useState('');
   const [largeImgText, setLargeImgText] = useState('');
-  // const [canvas, setCanvas] = useState(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = '960';
     canvas.height = '550';
-    // setCanvas(new fabric.Canvas(canvasRef.current));
   }, []);
 
   const handleFileChange = event => {
@@ -65,12 +62,15 @@ function Content() {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = event => {
-      const data = event.target.result;
-      fabric.Image.fromURL(data, function (img) {
+      const image = new Image();
+      image.onload = () => {
         const canvas = canvasRef.current;
-        const oImg = img.set({ left: 0, top: 0, scaleX: 0.5, scaleY: 0.5 });
-        canvas.add(oImg).setActiveObject(oImg);
-      });
+        const context = canvas.getContext('2d');
+        // const x = (canvas.width - image.width) / 2; // 计算绘制的起始坐标
+        // const y = (canvas.height - image.height) / 2;
+        context.drawImage(image, 0, 0, image.width / 3, image.height / 3); // 在指定位置绘制图片
+      };
+      image.src = event.target.result;
     };
     reader.readAsDataURL(file);
   };
@@ -130,8 +130,8 @@ function Content() {
     const imgUrl = canvas.toDataURL();
     console.log(imgUrl);
     setImgUrl(imgUrl);
-    link.href = canvas.toDataURL();
-    link.click();
+    // link.href = canvas.toDataURL();
+    // link.click();
   };
 
   const handleBrushSizeChange = event => {
@@ -319,7 +319,6 @@ function Content() {
       <div className="bottom">
         <div className="left">
           <canvas
-            id="c"
             ref={canvasRef}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
